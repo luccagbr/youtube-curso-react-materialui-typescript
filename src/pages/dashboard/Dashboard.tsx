@@ -4,7 +4,7 @@ export const DashBoard = () => {
     return (
         <LayoutBaseDePagina titulo="Pagina inicial" barraDeFerramentas={(
             <BarraDeFerramentas mostrarInputBusca textoBotaoNovo="Novo"/>
-        )}>
+        )}> 
         </LayoutBaseDePagina>
     );  
 };
