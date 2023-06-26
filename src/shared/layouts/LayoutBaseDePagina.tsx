@@ -13,6 +13,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePagina> = ({ children, ti
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
     const mdDown = useMediaQuery(theme.breakpoints.down('md'));
+    
     const { toggleDrawerOpen } = useDrawerContext();
 
     return (
