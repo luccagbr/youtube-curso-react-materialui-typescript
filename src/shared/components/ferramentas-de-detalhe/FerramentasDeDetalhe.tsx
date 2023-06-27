@@ -132,7 +132,7 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalhe> = ({
             )}
 
             {(mostrarBotaoVoltar && 
-                ( mostrarBotaoApagar || mostrarBotaoNovo || mostrarBotaoSalvar || mostrarBotaoSalvarEVoltar)) && (
+                (mostrarBotaoApagar || mostrarBotaoNovo || mostrarBotaoSalvar || mostrarBotaoSalvarEVoltar)) && (
                 <Divider variant="middle" orientation="vertical"/>
             )}
 
