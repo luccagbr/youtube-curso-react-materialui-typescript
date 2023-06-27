@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 interface ILayoutBaseDePagina {
     titulo: string,
-    children: React.ReactNode;
+    children: ReactNode;
     barraDeFerramentas?: ReactNode;
 }
 
