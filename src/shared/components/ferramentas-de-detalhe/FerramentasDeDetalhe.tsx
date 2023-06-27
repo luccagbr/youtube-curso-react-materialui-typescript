@@ -26,7 +26,7 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalhe> = ({
 
     mostrarBotaoSalvar = true,
     mostrarBotaoNovo = true,
-    mostrarBotaoSalvarEVoltar = false,
+    mostrarBotaoSalvarEVoltar = true,
     mostrarBotaoApagar = true,
     mostrarBotaoVoltar = true,
 
