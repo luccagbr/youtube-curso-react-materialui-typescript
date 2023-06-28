@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react"
 
-export const useDebounce = (delay = 500, notDelayInFirtsTime = true) => {
+export const useDebounce = (delay = 1000, notDelayInFirtsTime = true) => {
     const debouncing = useRef<NodeJS.Timeout>()
     const isFirstTime = useRef(notDelayInFirtsTime);
 
