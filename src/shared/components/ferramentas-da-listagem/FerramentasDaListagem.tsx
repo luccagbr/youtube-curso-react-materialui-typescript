@@ -30,7 +30,8 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
             display="flex" 
             gap={1} 
             alignItems="center"
-            component={Paper}>
+            component={Paper}
+            >
 
             {mostrarInputBusca && (
                 <TextField 

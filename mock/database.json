@@ -1,12 +1,18 @@
 {
-    "pessoas": [
-        {
-            "id": 1,
-            "nome": "Lucca Gabriel",
-            "sobrenome": "Vital Cristino",
-            "nomeCompleto": "Lucca Gabriel Vital Cristino",
-            "email": "Lucca Gabriel Vital Cristino",
-            "cidadeId": 1
-        }
-    ]
+  "pessoas": [
+    {
+      "id": 1,
+      "nomeCompleto": "Lucca Gabriel Vital Cristino",
+      "email": "ainda@nao.tem",
+      "cidadeId": 1
+    },
+
+    {
+        "id": 2,
+        "nomeCompleto": "Luciana",
+        "email": "ainda2@nao.tem",
+        "cidadeId": 1
+      }
+
+  ]
 }
