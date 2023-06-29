@@ -56,6 +56,7 @@ export const ListagemDePessoas: React.FC = () => {
             }))
         } 
     }
+    
     return (
         <LayoutBaseDePagina 
             titulo="Listagem de pessoas"
