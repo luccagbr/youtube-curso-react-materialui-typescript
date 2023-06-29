@@ -6,13 +6,35 @@
       "email": "ainda@nao.tem",
       "cidadeId": 1
     },
-
     {
-        "id": 2,
-        "nomeCompleto": "Luciana",
-        "email": "ainda2@nao.tem",
-        "cidadeId": 1
-      }
-
+      "id": 2,
+      "nomeCompleto": "Luciana",
+      "email": "ainda2@nao.tem",
+      "cidadeId": 1
+    },
+    {
+      "id": 3,
+      "nomeCompleto": "Mário",
+      "email": "ainda3@nao.tem",
+      "cidadeId": 2
+    },
+    {
+      "id": 4,
+      "nomeCompleto": "Luma",
+      "email": "ainda4@nao.tem",
+      "cidadeId": 4
+    },
+    {
+      "id": 5,
+      "nomeCompleto": "Fracis",
+      "email": "ainda5@nao.tem",
+      "cidadeId": 1
+    },
+    {
+      "id": 6,
+      "nomeCompleto": "Paula",
+      "email": "ainda6@nao.tem",
+      "cidadeId": 1
+    }
   ]
 }
