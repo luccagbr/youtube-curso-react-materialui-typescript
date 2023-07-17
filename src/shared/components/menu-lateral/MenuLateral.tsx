@@ -58,14 +58,13 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
                         <List component="nav">
                             {drawerOptions.map((drawerOptions) => (
                                 <ListItemLink 
-                                key={drawerOptions.path}
-                                icon={drawerOptions.icon}
-                                to={drawerOptions.path}
-                                label={drawerOptions.label}
-                                onClick={smDown ? toggleDrawerOpen : undefined}
+                                    key={drawerOptions.path}
+                                    icon={drawerOptions.icon}
+                                    to={drawerOptions.path}
+                                    label={drawerOptions.label}
+                                    onClick={smDown ? toggleDrawerOpen : undefined}
                             />
-                            ))
-                            }
+                            ))}
                         </List>
                     </Box>
                     <Box>
@@ -82,7 +81,7 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
                 </Box>
             </Drawer>
 
-            <Box height='100vh' marginLeft={smDown ? 0 : theme.spacing(28)}>
+            <Box marginLeft={smDown ? 0 : theme.spacing(28)}>
                 {children}
             </Box>
         </>

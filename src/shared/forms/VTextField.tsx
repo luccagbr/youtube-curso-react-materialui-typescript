@@ -9,7 +9,7 @@ type TVTextFieldProps = TextFieldProps & {
 export const VTextField: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
     const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
 
-    const [value, setValue] = useState(defaultValue)
+    const [value, setValue] = useState(defaultValue || '');
 
     useEffect(() => {
         registerField({
@@ -23,6 +23,12 @@ export const VTextField: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
         <TextField 
             {...rest}
             name={name}
+
+            error={!!error}
+            helperText={error}
+            defaultValue={defaultValue}
+            onKeyDown={() => error ? clearError : undefined}
+
             value = {value}
             onChange = {(e) => setValue(e.target.value)}
         />

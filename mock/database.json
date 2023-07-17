@@ -28,6 +28,18 @@
       "id": 5,
       "nomeCompleto": "Fracis",
       "email": "ainda5@nao.tem",
+      "cidadeId": 3
+    },
+    {
+      "id": 6,
+      "nomeCompleto": "teste",
+      "email": "ainda6@nao.tem",
+      "cidadeId": 5
+    },
+    {
+      "id": 7,
+      "nomeCompleto": "Maria",
+      "email": "ainda7@nao.tem",
       "cidadeId": 1
     }
   ]
