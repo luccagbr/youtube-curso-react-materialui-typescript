@@ -1,11 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { FerramentasDeDetalhe } from "../../shared/components";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PessoasService } from "../../shared/services/api/pessoas";
 import { LinearProgress, Paper, TextField } from "@mui/material";
 import { Form } from "@unform/web";
 import { VTextField } from "../../shared/forms";
+import { FormHandles } from "@unform/core";
+
+interface IFormData {
+    email: string;
+    nomeCompleto: string;
+    cidadeId: string;
+}
 
 export const DetalheDePessoa: React.FC = () => {
     const { id = 'nova' } = useParams<'id'>();
@@ -13,6 +20,8 @@ export const DetalheDePessoa: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [nome, setNome] = useState('');
+
+    const formRef = useRef<FormHandles>(null);
 
     useEffect(() => {
         if(id !== "nova") {
@@ -32,8 +41,8 @@ export const DetalheDePessoa: React.FC = () => {
         }
     }, [id]);
 
-    const handleSave = () => {
-        console.log("Salvo");
+    const handleSave = (dados: IFormData) => {
+        console.log(dados);
     }
 
     const handleDelete = (id: number) => {
@@ -60,8 +69,8 @@ export const DetalheDePessoa: React.FC = () => {
                     mostrarBotaoNovo = {id !== "nova"}
                     mostrarBotaoApagar={id !== "nova"}
 
-                    aoClicarEmSalvarEVoltar={handleSave}
-                    aoClicarEmSalvar={handleSave}
+                    aoClicarEmSalvarEVoltar={() => {}}
+                    aoClicarEmSalvar={() => formRef.current?.submitForm()}
                     aoClicarEmApagar={() => handleDelete(Number(id))}
                     aoClicarEmNovo={() => navigate("/pessoas/detalhe/nova")}
                     aoClicarEmVoltar={() => navigate("/pessoas")}
@@ -73,12 +82,10 @@ export const DetalheDePessoa: React.FC = () => {
             )}
 
             
-            <Form onSubmit={(dados) => console.log(dados)}>
-                <VTextField
-                    name = "Nome completo"
-                />
-
-                <button type="submit">Submit</button>
+            <Form ref={formRef} onSubmit={(dados) => handleSave(dados)}>
+                <VTextField name = "nomeCompleto"/>
+                <VTextField name = "email"/>
+                <VTextField name = "cidadeId"/>
             </Form>
         </LayoutBaseDePagina>
     )
