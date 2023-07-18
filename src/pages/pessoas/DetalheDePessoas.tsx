@@ -3,7 +3,7 @@ import { LayoutBaseDePagina } from "../../shared/layouts";
 import { FerramentasDeDetalhe } from "../../shared/components";
 import { useEffect, useRef, useState } from "react";
 import { PessoasService } from "../../shared/services/api/pessoas";
-import { LinearProgress, Paper, TextField } from "@mui/material";
+import { Box, Grid, LinearProgress, Paper, TextField, Typography } from "@mui/material";
 import { Form } from "@unform/web";
 import { VTextField } from "../../shared/forms";
 import { FormHandles } from "@unform/core";
@@ -23,6 +23,51 @@ export const DetalheDePessoa: React.FC = () => {
 
     const formRef = useRef<FormHandles>(null);
 
+    
+    const handleSave = (dados: IFormData) => {
+        
+        setIsLoading(true);
+        
+        if(id === "nova") {
+            PessoasService
+            .create(dados)
+            .then((res) => {
+                setIsLoading(false);
+                
+                if(res instanceof Error) {
+                    alert(res.message);
+                } else {
+                    navigate(`/pessoas/detalhe/${res}`);
+                }
+            })
+        } else {
+            PessoasService
+            .updateById(Number(id), {id: Number(id), ...dados})
+            .then((res) => {
+                setIsLoading(false);
+                
+                if(res instanceof Error) {
+                    alert(res.message);
+                }
+            })
+        }
+
+    }
+    
+    const handleDelete = (id: number) => {
+        if(confirm("Deseja relmente apagar o registro?")) {
+            PessoasService.deleteById(id)
+            .then((result => {
+                if(result instanceof Error) {
+                    alert(result.message);
+                } else {
+                    alert("Registro apagado com sucesso!");
+                    navigate("/pessoas")
+                }
+            }))
+        } 
+    }
+    
     useEffect(() => {
         if(id !== "nova") {
             setIsLoading(true);
@@ -42,50 +87,6 @@ export const DetalheDePessoa: React.FC = () => {
         }
     }, [id]);
 
-    const handleSave = (dados: IFormData) => {
-
-        setIsLoading(true);
-
-        if(id === "nova") {
-            PessoasService
-            .create(dados)
-            .then((res) => {
-                setIsLoading(false);
-
-                if(res instanceof Error) {
-                    alert(res.message);
-                } else {
-                    navigate(`/pessoas/detalhe/${res}`);
-                }
-            })
-        } else {
-            PessoasService
-            .updateById(Number(id), {id: Number(id), ...dados})
-            .then((res) => {
-                setIsLoading(false);
-
-                if(res instanceof Error) {
-                    alert(res.message);
-                }
-            })
-        }
-
-    }
-
-    const handleDelete = (id: number) => {
-        if(confirm("Deseja relmente apagar o registro?")) {
-            PessoasService.deleteById(id)
-            .then((result => {
-                if(result instanceof Error) {
-                    alert(result.message);
-                } else {
-                    alert("Registro apagado com sucesso!");
-                    navigate("/pessoas")
-                }
-            }))
-        } 
-    }
-
     return (
         <LayoutBaseDePagina
             titulo={id === "nova" ? "Nova pessoa" : nome}
@@ -103,16 +104,85 @@ export const DetalheDePessoa: React.FC = () => {
                     aoClicarEmVoltar={() => navigate("/pessoas")}
 
                 />}
-        >
-            {isLoading && (
-                <LinearProgress variant="indeterminate"/>
-            )}
-
-            
+        >   
             <Form ref={formRef} onSubmit={(dados) => handleSave(dados)}>
-                <VTextField placeholder="Nome completo" name = "nomeCompleto"/>
-                <VTextField placeholder="E-mail" name = "email"/>
-                <VTextField placeholder="Cidade id" name = "cidadeId"/>
+                <Box 
+                    margin={1} 
+                    display="flex" 
+                    flexDirection="column" 
+                    component={Paper}
+                    variant="outlined"
+                >
+                    <Grid 
+                        container 
+                        direction="column" 
+                        padding={2} 
+                        spacing={2}
+                    >
+                        
+                        {isLoading && (
+                            <Grid item>
+                                <LinearProgress variant="indeterminate"/>
+                            </Grid>
+                        )}
+
+
+                        {!isLoading && (
+                            <>
+                                <Grid item>
+                                    <Typography variant="h6">Geral</Typography>
+                                </Grid>
+
+                                <Grid 
+                                    container 
+                                    item 
+                                    direction="row" 
+                                    spacing={2}
+                                >
+                                    <Grid item xs={12} sm={12} md={6} xl={2}>
+                                        <VTextField
+                                            fullWidth 
+                                            label="Nome completo"
+                                            placeholder="" 
+                                            name = "nomeCompleto"
+                                        />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid 
+                                    container 
+                                    item 
+                                    direction="row" 
+                                    spacing={2}
+                                >
+                                    <Grid item xs={12} sm={12} md={6} xl={2}>
+                                        <VTextField
+                                            fullWidth 
+                                            label="E-mail"
+                                            name = "email"
+                                            />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid 
+                                    container 
+                                    item 
+                                    direction="row" 
+                                    spacing={2}
+                                >
+                                    <Grid item xs={12} sm={12} md={6} xl={2}>
+                                        <VTextField
+                                            fullWidth 
+                                            label="Cidade id"
+                                            name = "cidadeId"
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </>
+                        )}
+                        </Grid>
+
+                </Box>
             </Form>
         </LayoutBaseDePagina>
     )
