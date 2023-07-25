@@ -1,18 +1,23 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { FerramentasDeDetalhe } from "../../shared/components";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { PessoasService } from "../../shared/services/api/pessoas";
-import { Box, Grid, LinearProgress, Paper, TextField, Typography } from "@mui/material";
-import { Form } from "@unform/web";
-import { VTextField, VForm, useVForm } from "../../shared/forms";
-import { FormHandles } from "@unform/core";
+import { Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
+import { VTextField, VForm, useVForm, IVFormErrors } from "../../shared/forms";
+import * as yup from "yup";
 
 interface IFormData {
     email: string;
     nomeCompleto: string;
     cidadeId: number;
 }
+
+const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
+    nomeCompleto: yup.string().min(3, "O campo precisa ter pelo menos 3 caracteres").required("O nome completo é obrigatório."),
+    email: yup.string().max(255).email("Deve informar um e-mail válido").required("O e-mail é obrigatório."),
+    cidadeId: yup.number().required()
+})
 
 export const DetalheDePessoa: React.FC = () => {
     const { id = 'nova' } = useParams<'id'>();
@@ -33,11 +38,14 @@ export const DetalheDePessoa: React.FC = () => {
     
     const handleSave = (dados: IFormData) => {
         
-        setIsLoading(true);
-        
+        formValidationSchema.
+        validate(dados, { abortEarly: false })
+        .then((dadosValidados) => {
+            setIsLoading(true);
+
         if(id === "nova") {
             PessoasService
-            .create(dados)
+            .create(dadosValidados)
             .then((res) => {
                 setIsLoading(false);
                 
@@ -66,7 +74,18 @@ export const DetalheDePessoa: React.FC = () => {
                 }
             })
         }
+        })
+        .catch((errors: yup.ValidationError) => {
+            const validationErrors: IVFormErrors = {};
 
+            errors.inner.forEach((error) => {
+                if(!error.path) return;
+
+                validationErrors[error.path] = error.message;
+            });
+
+            formRef.current?.setErrors(validationErrors)
+        })
     }
     
     const handleDelete = (id: number) => {
