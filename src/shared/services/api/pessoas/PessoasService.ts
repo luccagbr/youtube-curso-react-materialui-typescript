@@ -51,7 +51,6 @@ const getById = async (id: number):Promise<IDetalhesPessoa | Error> => {
         return new Error('Erro ao consultar o registro.');
 
     } catch(error) {
-        console.error(error);
         return new Error((error as { message: string }).message || 'Erro ao consultar o registro.');
     }
 }
@@ -73,7 +72,7 @@ const create = async (dados: Omit<IDetalhesPessoa, 'id'>):Promise<number | Error
 
 const updateById = async (id: number, dados: IDetalhesPessoa):Promise<void | Error> => {
     try {        
-        await Api.put('/pessoas/${id}')
+        await Api.put(`/pessoas/${id}`, dados)
     } catch(error) {
         console.error(error);
         return new Error((error as { message: string }).message || 'Erro ao atualizar o registro.');

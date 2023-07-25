@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { PessoasService } from "../../shared/services/api/pessoas";
 import { Box, Grid, LinearProgress, Paper, TextField, Typography } from "@mui/material";
 import { Form } from "@unform/web";
-import { VTextField } from "../../shared/forms";
+import { VTextField, VForm, useVForm } from "../../shared/forms";
 import { FormHandles } from "@unform/core";
 
 interface IFormData {
@@ -21,7 +21,14 @@ export const DetalheDePessoa: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [nome, setNome] = useState('');
 
-    const formRef = useRef<FormHandles>(null);
+    const { 
+        formRef,
+        save,
+        saveAndClose,
+        saveAndNew,
+        isSaveAndClose,
+        isSaveAndNew
+    } = useVForm();
 
     
     const handleSave = (dados: IFormData) => {
@@ -37,7 +44,11 @@ export const DetalheDePessoa: React.FC = () => {
                 if(res instanceof Error) {
                     alert(res.message);
                 } else {
-                    navigate(`/pessoas/detalhe/${res}`);
+                    if(isSaveAndClose()) {
+                        navigate('/pessoas');
+                    } else {
+                        navigate(`/pessoas/detalhe/${res}`)
+                    }
                 }
             })
         } else {
@@ -48,6 +59,10 @@ export const DetalheDePessoa: React.FC = () => {
                 
                 if(res instanceof Error) {
                     alert(res.message);
+                } else {
+                    if(isSaveAndClose()) {
+                        navigate('/pessoas');
+                    }
                 }
             })
         }
@@ -80,10 +95,16 @@ export const DetalheDePessoa: React.FC = () => {
                     navigate("/pessoas");
                 } else {
                     setNome(result.nomeCompleto)
-
                     formRef.current?.setData(result);
                 }
              })
+
+        } else {
+            formRef.current?.setData({
+                nomeCompleto: "",
+                email: "",
+                cidadeId: ""
+            });
         }
     }, [id]);
 
@@ -97,15 +118,15 @@ export const DetalheDePessoa: React.FC = () => {
                     mostrarBotaoNovo = {id !== "nova"}
                     mostrarBotaoApagar={id !== "nova"}
 
-                    aoClicarEmSalvarEVoltar={() => {}}
-                    aoClicarEmSalvar={() => formRef.current?.submitForm()}
+                    aoClicarEmSalvarEVoltar={saveAndClose}
+                    aoClicarEmSalvar={save}
                     aoClicarEmApagar={() => handleDelete(Number(id))}
                     aoClicarEmNovo={() => navigate("/pessoas/detalhe/nova")}
                     aoClicarEmVoltar={() => navigate("/pessoas")}
 
                 />}
         >   
-            <Form ref={formRef} onSubmit={(dados) => handleSave(dados)}>
+            <VForm ref={formRef} onSubmit={handleSave}>
                 <Box 
                     margin={1} 
                     display="flex" 
@@ -126,64 +147,58 @@ export const DetalheDePessoa: React.FC = () => {
                             </Grid>
                         )}
 
-
-                        {!isLoading && (
-                            <>
-                                <Grid item>
-                                    <Typography variant="h6">Geral</Typography>
-                                </Grid>
-
-                                <Grid 
-                                    container 
-                                    item 
-                                    direction="row" 
-                                    spacing={2}
-                                >
-                                    <Grid item xs={12} sm={12} md={6} xl={2}>
-                                        <VTextField
-                                            fullWidth 
-                                            label="Nome completo"
-                                            placeholder="" 
-                                            name = "nomeCompleto"
-                                        />
-                                    </Grid>
-                                </Grid>
-
-                                <Grid 
-                                    container 
-                                    item 
-                                    direction="row" 
-                                    spacing={2}
-                                >
-                                    <Grid item xs={12} sm={12} md={6} xl={2}>
-                                        <VTextField
-                                            fullWidth 
-                                            label="E-mail"
-                                            name = "email"
-                                            />
-                                    </Grid>
-                                </Grid>
-
-                                <Grid 
-                                    container 
-                                    item 
-                                    direction="row" 
-                                    spacing={2}
-                                >
-                                    <Grid item xs={12} sm={12} md={6} xl={2}>
-                                        <VTextField
-                                            fullWidth 
-                                            label="Cidade id"
-                                            name = "cidadeId"
-                                        />
-                                    </Grid>
-                                </Grid>
-                            </>
-                        )}
+                        <Grid item>
+                            <Typography variant="h6">Geral</Typography>
                         </Grid>
 
+                        <Grid 
+                            container 
+                            item 
+                            direction="row" 
+                            spacing={2}
+                        >
+                            <Grid item xs={12} sm={12} md={6} xl={2}>
+                                <VTextField
+                                    fullWidth 
+                                    label="Nome completo"
+                                    name = "nomeCompleto"
+                                    onChange={ e => setNome(e.target.value)}
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Grid 
+                            container 
+                            item 
+                            direction="row" 
+                            spacing={2}
+                        >
+                            <Grid item xs={12} sm={12} md={6} xl={2}>
+                                <VTextField
+                                    fullWidth 
+                                    label="E-mail"
+                                    name = "email"
+                                    />
+                            </Grid>
+                        </Grid>
+
+                        <Grid 
+                            container 
+                            item 
+                            direction="row" 
+                            spacing={2}
+                        >
+                            <Grid item xs={12} sm={12} md={6} xl={2}>
+                                <VTextField
+                                    fullWidth 
+                                    label="Cidade id"
+                                    name = "cidadeId"
+                                />
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Box>
-            </Form>
+            </VForm>
         </LayoutBaseDePagina>
     )
 }
