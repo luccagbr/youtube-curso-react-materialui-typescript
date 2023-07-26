@@ -4,7 +4,9 @@ import { useEffect } from 'react';
 import { 
     DashBoard, 
     ListagemDePessoas,
-    DetalheDePessoa
+    DetalheDePessoa,
+    ListagemDeCidades,
+    DetalheDeCidade
  } from '../pages/';
 
 export const AppRoutes = () => {
@@ -22,6 +24,12 @@ export const AppRoutes = () => {
                 icon: 'people',
                 path: '/pessoas',
                 label: 'Pessoas',
+            },
+
+            {
+                icon: 'location_city',
+                path: '/cidades',
+                label: 'Cidades',
             }
         ]);
     }, [])
@@ -31,6 +39,8 @@ export const AppRoutes = () => {
             <Route path="/pagina-inicial" element={<DashBoard/>}/>
             <Route path="/pessoas" element={<ListagemDePessoas/>}/>
             <Route path="/pessoas/detalhe/:id" element={<DetalheDePessoa/>}/>
+            <Route path="/cidades" element={<ListagemDeCidades/>}/>
+            <Route path="/cidades/detalhe/:id" element={<DetalheDeCidade/>}/>
             <Route path="*" element={<Navigate to="/pagina-inicial"/>}/>
         </Routes>
     );

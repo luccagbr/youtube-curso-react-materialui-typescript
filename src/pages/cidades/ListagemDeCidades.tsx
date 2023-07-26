@@ -2,17 +2,17 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import { FerramentasDaListagem } from "../../shared/components"
 import { LayoutBaseDePagina } from "../../shared/layouts"
 import { useEffect, useMemo, useState } from "react";
-import { PessoasService, IListagemPessoa } from "../../shared/services/api/pessoas/PessoasService";
+import { CidadesService, IListagemCidade } from "../../shared/services/api/cidades/CidadesService";
 import { useDebounce } from "../../shared/hooks";
 import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
 import { Environment } from "../../shared/environment";
 
-export const ListagemDePessoas: React.FC = () => {
+export const ListagemDeCidades: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const { debounce } = useDebounce();
     const navigate = useNavigate();
 
-    const [rows, setRows] = useState<IListagemPessoa[]>([]);
+    const [rows, setRows] = useState<IListagemCidade[]>([]);
     const [totalCount, setTotalCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -28,7 +28,7 @@ export const ListagemDePessoas: React.FC = () => {
         setIsLoading(true);
 
         debounce(() => {
-            PessoasService.getAll(pagina, busca)
+            CidadesService.getAll(pagina, busca)
             .then((result) => {
                 setIsLoading(false);
 
@@ -45,7 +45,7 @@ export const ListagemDePessoas: React.FC = () => {
 
     const handleDelete = (id: number) => {
         if(confirm("Deseja relmente apagar o registro?")) {
-            PessoasService.deleteById(id)
+            CidadesService.deleteById(id)
             .then((result => {
                 if(result instanceof Error) {
                     alert(result.message);
@@ -59,11 +59,11 @@ export const ListagemDePessoas: React.FC = () => {
     
     return (
         <LayoutBaseDePagina 
-            titulo="Listagem de pessoas"
+            titulo="Listagem de Cidades"
             barraDeFerramentas={<FerramentasDaListagem textoBotaoNovo="Nova" 
                 mostrarInputBusca
                 textoDaBusca={busca}
-                aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
+                aoClicarEmNovo={() => navigate('/cidades/detalhe/nova')}
                 aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1'}, { replace: true })}/>
         }>
 
@@ -73,23 +73,21 @@ export const ListagemDePessoas: React.FC = () => {
                         <TableRow>
                             <TableCell width={100}>Ações</TableCell>
                             <TableCell>Nome completo</TableCell>
-                            <TableCell>E-mail</TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
-                        {rows.map((pessoa) => (
-                            <TableRow key={pessoa.id}>
+                        {rows.map((cidade) => (
+                            <TableRow key={cidade.id}>
                                 <TableCell>
-                                    <IconButton size="small" onClick={() => handleDelete(pessoa.id)}>
+                                    <IconButton size="small" onClick={() => handleDelete(cidade.id)}>
                                         <Icon>delete</Icon>
                                     </IconButton>
-                                    <IconButton size="small" onClick={() => navigate(`/pessoas/detalhe/${pessoa.id}`)}>
+                                    <IconButton size="small" onClick={() => navigate(`/Cidades/detalhe/${cidade.id}`)}>
                                         <Icon>edit</Icon>
                                     </IconButton>
                                 </TableCell>
-                                <TableCell>{pessoa.nomeCompleto}</TableCell>
-                                <TableCell>{pessoa.email}</TableCell>
+                                <TableCell>{cidade.nome}</TableCell>
                             </TableRow>
                     ))}
                     </TableBody>
