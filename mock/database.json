@@ -28,5 +28,8 @@
       "id": 2,
       "nome": "Ipatinga"
     }
-  ]
+  ],
+  "auth": {
+    "accessToken": "sjkdhadjkh9328472387"
+  }
 }
