@@ -1,10 +1,10 @@
 import { Api } from "../axios-config";
 
 interface IAuth {
-    acessToken: string;
+    accessToken: string;
 }
 
-const auth = async (email: string, password: string):Promise<number | Error> => {
+const auth = async (email: string, password: string):Promise<IAuth | Error> => {
     try {        
         const { data } = await Api.get('/auth', { data: { email, password }})
 
