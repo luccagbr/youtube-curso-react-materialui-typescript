@@ -4,19 +4,27 @@ import { AppRoutes } from "./routes";
 import { AppThemeProvider } from "./contexts/ThemeContext";
 import { DrawerProvider } from "./contexts/DrawerContext";
 import { MenuLateral } from './shared/components/menu-lateral/MenuLateral';
+import { AuthProvider } from "./contexts";
+import { Login } from "./shared/components";
 
 export const App = () => {
   return (
-    <AppThemeProvider>
-      <DrawerProvider>
-      <BrowserRouter>
+    <AuthProvider>
+      <AppThemeProvider>
 
-        <MenuLateral>
-          <AppRoutes/>
-        </MenuLateral>
+        <Login>
+          <DrawerProvider>
+            <BrowserRouter>
+
+              <MenuLateral>
+                <AppRoutes/>
+              </MenuLateral>
+              
+            </BrowserRouter>
+          </DrawerProvider>
+        </Login>
         
-      </BrowserRouter>
-      </DrawerProvider>
-    </AppThemeProvider>
+      </AppThemeProvider>
+    </AuthProvider>
   );
 }

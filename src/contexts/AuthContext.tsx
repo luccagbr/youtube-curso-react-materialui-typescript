@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useCallback, useEffect, useMemo, useState } from "react"
+import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { AuthService } from "../shared/services/api/auth/AuthService";
 
 interface IAuthContextData {
@@ -11,15 +11,15 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
-const AuthContext = createContext({} as IAuthContextData);
+export const AuthContext = createContext({} as IAuthContextData);
 
-const LOCAL_STOREGE_KEY_ACCESS_TOKEN = "APP_ACCESS_TOKEN"
+const LOCAL_STORAGE_KEY_ACCESS_TOKEN = "APP_ACCESS_TOKEN"
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [ acessToken, setAccessToken ] = useState<string>();
 
     useEffect(() => {
-        const accessToken = localStorage.getItem(LOCAL_STOREGE_KEY_ACCESS_TOKEN);
+        const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
 
         if(accessToken) {
             setAccessToken(JSON.parse(accessToken));
@@ -35,13 +35,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             return result.message;
         } else {
             setAccessToken(result.accessToken);
-            localStorage.setItem(LOCAL_STOREGE_KEY_ACCESS_TOKEN, JSON.stringify(result.accessToken))
+            localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, JSON.stringify(result.accessToken))
         }
     }, []);
 
     const handleLogout = useCallback(() => {
         setAccessToken(undefined);
-        localStorage.removeItem(LOCAL_STOREGE_KEY_ACCESS_TOKEN);
+        localStorage.removeItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
     }, [])
 
     const isAuthenticated = useMemo(() => !!acessToken, [acessToken])
@@ -52,3 +52,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+export const useAuthContext = () => useContext(AuthContext);
