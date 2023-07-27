@@ -1,9 +1,32 @@
 {
-  "pessoas": [],
+  "pessoas": [
+    {
+      "id": 1,
+      "nomeCompleto": "Lucca Gabriel Vital",
+      "email": "ainda@nao.tem",
+      "cidadeId": 2
+    },
+    {
+      "nomeCompleto": "dsfsdfsdfsfsf",
+      "email": "ainda@nao.tem",
+      "cidadeId": 1,
+      "id": 2
+    },
+    {
+      "id": 3,
+      "nomeCompleto": "teste",
+      "email": "ainda@nao.tem",
+      "cidadeId": 1
+    }
+  ],
   "cidades": [
     {
       "id": 1,
       "nome": "Caratinga"
+    },
+    {
+      "id": 2,
+      "nome": "Ipatinga"
     }
   ]
 }

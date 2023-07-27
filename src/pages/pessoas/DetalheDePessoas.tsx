@@ -6,6 +6,7 @@ import { PessoasService } from "../../shared/services/api/pessoas";
 import { Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
 import { VTextField, VForm, useVForm, IVFormErrors } from "../../shared/forms";
 import * as yup from "yup";
+import { AutoCompleteCidades } from "./components/AutoCompleteCidade";
 
 interface IFormData {
     email: string;
@@ -38,42 +39,44 @@ export const DetalheDePessoa: React.FC = () => {
     
     const handleSave = (dados: IFormData) => {
         
+        console.log(dados);
+
         formValidationSchema.
         validate(dados, { abortEarly: false })
         .then((dadosValidados) => {
             setIsLoading(true);
 
-        if(id === "nova") {
-            PessoasService
-            .create(dadosValidados)
-            .then((res) => {
-                setIsLoading(false);
-                
-                if(res instanceof Error) {
-                    alert(res.message);
-                } else {
-                    if(isSaveAndClose()) {
-                        navigate('/pessoas');
+            if(id === "nova") {
+                PessoasService
+                .create(dadosValidados)
+                .then((res) => {
+                    setIsLoading(false);
+                    
+                    if(res instanceof Error) {
+                        alert(res.message);
                     } else {
-                        navigate(`/pessoas/detalhe/${res}`)
+                        if(isSaveAndClose()) {
+                            navigate('/pessoas');
+                        } else {
+                            navigate(`/pessoas/detalhe/${res}`)
+                        }
                     }
-                }
-            })
-        } else {
-            PessoasService
-            .updateById(Number(id), {id: Number(id), ...dados})
-            .then((res) => {
-                setIsLoading(false);
-                
-                if(res instanceof Error) {
-                    alert(res.message);
-                } else {
-                    if(isSaveAndClose()) {
-                        navigate('/pessoas');
+                })
+            } else {
+                PessoasService
+                .updateById(Number(id), {id: Number(id), ...dados})
+                .then((res) => {
+                    setIsLoading(false);
+                    
+                    if(res instanceof Error) {
+                        alert(res.message);
+                    } else {
+                        if(isSaveAndClose()) {
+                            navigate('/pessoas');
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
         })
         .catch((errors: yup.ValidationError) => {
             const validationErrors: IVFormErrors = {};
@@ -122,7 +125,7 @@ export const DetalheDePessoa: React.FC = () => {
             formRef.current?.setData({
                 nomeCompleto: "",
                 email: "",
-                cidadeId: ""
+                cidadeId: undefined
             });
         }
     }, [id]);
@@ -207,12 +210,8 @@ export const DetalheDePessoa: React.FC = () => {
                             direction="row" 
                             spacing={2}
                         >
-                            <Grid item xs={12} sm={12} md={6} xl={2}>
-                                <VTextField
-                                    fullWidth 
-                                    label="Cidade id"
-                                    name = "cidadeId"
-                                />
+                            <Grid item xs={12} md={6} xl={2}>
+                                <AutoCompleteCidades isExternalLoading={isLoading}/>
                             </Grid>
                         </Grid>
                     </Grid>

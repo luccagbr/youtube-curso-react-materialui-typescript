@@ -14,7 +14,7 @@ export const ListagemDePessoas: React.FC = () => {
 
     const [rows, setRows] = useState<IListagemPessoa[]>([]);
     const [totalCount, setTotalCount] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const busca = useMemo(() => {
         return searchParams.get("busca") || ""
@@ -59,7 +59,7 @@ export const ListagemDePessoas: React.FC = () => {
     
     return (
         <LayoutBaseDePagina 
-            titulo="Listagem de pessoas"
+            titulo="Listagem de Pessoas"
             barraDeFerramentas={<FerramentasDaListagem textoBotaoNovo="Nova" 
                 mostrarInputBusca
                 textoDaBusca={busca}

@@ -1,6 +1,7 @@
 import { Box, Button, TextField, Paper, useTheme, Icon } from '@mui/material';
 import React from 'react';
 import { Environment } from '../../environment';
+import { FlashOnRounded } from '@mui/icons-material';
 
 interface IFerramentasDaListagemProps {
     textoDaBusca?: string;
@@ -16,7 +17,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
     mostrarInputBusca = false,
     aoMudarTextoDeBusca,
     textoBotaoNovo = 'Novo',
-    mostrarBotaoNovo = true,
+    mostrarBotaoNovo = false,
     aoClicarEmNovo
 }) => {
     const theme = useTheme();
@@ -42,7 +43,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
             )}
 
             <Box flex={1} display="flex" justifyContent="end">
-            {(
+            {mostrarBotaoNovo && (
                 <Button 
                 variant="contained" 
                 color="primary" 
