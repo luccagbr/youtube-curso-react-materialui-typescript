@@ -17,7 +17,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
     mostrarInputBusca = false,
     aoMudarTextoDeBusca,
     textoBotaoNovo = 'Novo',
-    mostrarBotaoNovo = false,
+    mostrarBotaoNovo = true,
     aoClicarEmNovo
 }) => {
     const theme = useTheme();
