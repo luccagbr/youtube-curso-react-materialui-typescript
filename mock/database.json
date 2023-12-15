@@ -7,16 +7,22 @@
       "cidadeId": 2
     },
     {
+      "id": 2,
       "nomeCompleto": "dsfsdfsdfsfsf",
       "email": "ainda@nao.tem",
-      "cidadeId": 1,
-      "id": 2
+      "cidadeId": 1
     },
     {
-      "id": 3,
-      "nomeCompleto": "teste",
-      "email": "ainda@nao.tem",
-      "cidadeId": 1
+      "nomeCompleto": "Luciana",
+      "email": "ainda@teste.com",
+      "cidadeId": 1,
+      "id": 4
+    },
+    {
+      "nomeCompleto": "Nova pessoa",
+      "email": "ainda@teste2.com",
+      "cidadeId": 2,
+      "id": 5
     }
   ],
   "cidades": [
@@ -31,6 +37,10 @@
     {
       "nome": "Ubaporanga",
       "id": 3
+    },
+    {
+      "id": 4,
+      "nome": "Ponte Nova"
     }
   ],
   "auth": {
